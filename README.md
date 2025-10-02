@@ -1,73 +1,78 @@
-# Welcome to your Lovable project
+# BBS Calculator - Bar Bending Schedule App
 
-## Project info
+## Project Overview
 
-**URL**: https://lovable.dev/projects/f0729235-79e7-4a4e-b346-7d2dae9f8503
+A professional Bar Bending Schedule Calculator with IS Code Compliance. Calculate cutting lengths, weights, and generate BBS reports for structural members.
 
-## How can I edit this code?
+## Technologies Used
 
-There are several ways of editing your application.
+- **Framework**: React 18 with TypeScript
+- **Build Tool**: Vite
+- **Styling**: Tailwind CSS with custom engineering-themed design system
+- **UI Components**: shadcn/ui library built on Radix UI primitives
+- **Icons**: Lucide React
+- **PDF Generation**: jsPDF with jspdf-autotable
+- **Notifications**: Sonner for toast notifications
 
-**Use Lovable**
+## How to Run the Application
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f0729235-79e7-4a4e-b346-7d2dae9f8503) and start prompting.
+### Prerequisites
+- Node.js (version 16 or higher)
+- npm or pnpm package manager
 
-Changes made via Lovable will be committed automatically to this repo.
+### Installation and Setup
 
-**Use your preferred IDE**
+1. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+2. **Start Development Server**
+   ```bash
+   npm run dev
+   ```
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+3. **Open in Browser**
+   - The application will open at `http://localhost:5173` or `http://localhost:8080`
+   - Open your web browser and navigate to the displayed URL
 
-Follow these steps:
+### Build for Production
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+# Create production build
+npm run build
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+# Preview production build locally
+npm run preview
 ```
 
-**Edit a file directly in GitHub**
+## Project Structure
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+src/
+├── components/          # React components
+├── pages/              # Application pages
+├── hooks/              # Custom React hooks
+├── utils/              # Utility functions
+├── types/              # TypeScript type definitions
+├── lib/                # Library utilities
+└── index.css           # Global styles
+```
 
-**Use GitHub Codespaces**
+## Key Features
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- IS 2502 compliant BBS calculations
+- Multiple structural member types (beams, columns, slabs, etc.)
+- Automatic bar shape selection based on member type
+- Real-time cutting length and weight calculations
+- Export functionality (CSV, PDF, Excel)
+- Professional engineering-themed UI
+- Responsive design for all devices
 
-## What technologies are used for this project?
+## Development
 
-This project is built with:
+This project uses modern React development practices with TypeScript for type safety and Tailwind CSS for styling. The application follows IS standards for structural engineering calculations.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## License
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/f0729235-79e7-4a4e-b346-7d2dae9f8503) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project is for educational and professional use in structural engineering applications.
