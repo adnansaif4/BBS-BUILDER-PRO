@@ -6,7 +6,6 @@ import { Download, FileSpreadsheet, FileText, Edit, Trash2 } from "lucide-react"
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-import { svg2pdf } from "svg2pdf.js";
 
 interface BBSTableProps {
   entries: BBSEntry[];
@@ -51,86 +50,53 @@ export const BBSTable = ({ entries, onEdit, onDelete }: BBSTableProps) => {
     toast.info("Excel export with embedded shapes coming soon!");
   };
 
-  const handleExportPDF = async () => {
+  const handleExportPDF = () => {
     const doc = new jsPDF();
     
     // Title
     doc.setFontSize(16);
     doc.text("Bar Bending Schedule Report", 14, 15);
+    doc.setFontSize(10);
+    doc.text(`Generated on: ${new Date().toLocaleDateString()}`, 14, 22);
     
-    // Create a temporary div to render our previews
-    const tempDiv = document.createElement('div');
-    tempDiv.style.position = 'absolute';
-    tempDiv.style.left = '-9999px';
-    document.body.appendChild(tempDiv);
-
     // Table data
-    const tableData = await Promise.all(entries.map(async (entry) => {
-      // Render the shape preview
-      const previewDiv = document.createElement('div');
-      previewDiv.style.width = '80px';
-      previewDiv.style.height = '60px';
-      tempDiv.appendChild(previewDiv);
-      
-      // Create a canvas to render the SVG
-      const canvas = document.createElement('canvas');
-      canvas.width = 80;
-      canvas.height = 60;
-      previewDiv.appendChild(canvas);
-      
-      // Render the preview
-      const preview = <BarShapePreview shape={entry.shape} dimensions={entry.dimensions} />;
-      
-      // Convert SVG to image data
-      const svgElement = preview.props.children;
-      await svg2pdf(svgElement, doc, {
-        x: 0,
-        y: 0,
-        width: 20,
-        height: 15
-      });
-
-      // Get image data URL
-      const imgData = canvas.toDataURL('image/png');
-      previewDiv.removeChild(canvas);
-      
-      return [
-        entry.serialNo,
-        { content: entry.member.replace("-", " "), styles: { valign: 'middle' } },
-        { content: entry.barMark, styles: { fontStyle: 'bold', valign: 'middle' } },
-        { content: entry.shape, styles: { valign: 'middle' } },
-        { content: entry.diameter, styles: { valign: 'middle' } },
-        { content: entry.cuttingLength.toFixed(0), styles: { valign: 'middle' } },
-        { content: entry.numberOfBars, styles: { valign: 'middle' } },
-        { content: entry.totalLength.toFixed(2), styles: { valign: 'middle' } },
-        { content: entry.weight.toFixed(2), styles: { fontStyle: 'bold', valign: 'middle' } },
-        { content: entry.remarks, styles: { fontSize: 7, valign: 'middle' } }
-      ];
-    }));
-
-    // Clean up
-    document.body.removeChild(tempDiv);
-
+    const tableData = entries.map((entry) => [
+      entry.serialNo,
+      entry.member.replace("-", " "),
+      entry.barMark,
+      entry.shape,
+      entry.diameter,
+      entry.cuttingLength.toFixed(0),
+      entry.numberOfBars,
+      entry.totalLength.toFixed(2),
+      entry.weight.toFixed(2),
+      entry.remarks
+    ]);
+    
     // Add totals row
     tableData.push([
       "", "", "", "", "", "", "Total:",
-      { content: totalLength.toFixed(2) + " m", styles: { fontStyle: 'bold' } },
-      { content: totalWeight.toFixed(2) + " kg", styles: { fontStyle: 'bold' } },
+      totalLength.toFixed(2) + " m",
+      totalWeight.toFixed(2) + " kg",
       ""
     ]);
     
     autoTable(doc, {
-      startY: 25,
+      startY: 30,
       head: [["S.No", "Member", "Bar Mark", "Shape", "Dia (mm)", "Cutting Length (mm)", "No. of Bars", "Total Length (m)", "Weight (kg)", "Remarks"]],
       body: tableData,
       theme: "grid",
-      styles: { fontSize: 8, cellPadding: 1.5 },
-      headStyles: { fillColor: [30, 144, 255] },
+      styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { 
+        fillColor: [30, 144, 255],
+        textColor: [255, 255, 255],
+        fontStyle: 'bold'
+      },
       columnStyles: {
         0: { cellWidth: 10 },
         1: { cellWidth: 20 },
         2: { cellWidth: 15 },
-        3: { cellWidth: 25 },
+        3: { cellWidth: 20 },
         4: { cellWidth: 15 },
         5: { cellWidth: 20 },
         6: { cellWidth: 15 },
